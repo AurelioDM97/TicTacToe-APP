@@ -2,6 +2,8 @@ package com.example.tictactoeapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.ImageView
 import com.example.tictactoeapp.databinding.ActivityMainBinding
@@ -30,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         binding.imageView9.setOnClickListener { onClick(it) }
     }
 
-    fun onClick(view : View) {
+    private fun onClick(view : View) {
         if(playersTurn) {
             val imageView = view as ImageView
             val gridId = when (imageView.id) {
@@ -46,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                 else -> 0
             }
             playersTurn = false
-
+            Handler(Looper.getMainLooper()).postDelayed({ playersTurn = true }, 600)
             setGame(imageView, gridId)
         }
     }
@@ -55,13 +57,16 @@ class MainActivity : AppCompatActivity() {
             imageView.setImageResource(R.drawable.swords)
             player1.add(gridId)
             imageView.isEnabled = false
+            currentPlayer = 2
 
         } else {
             imageView.setImageResource(R.drawable.shield)
             player2.add(gridId)
             imageView.isEnabled = false
+            currentPlayer = 1
 
         }
+        Handler(Looper.getMainLooper()).postDelayed({ playersTurn = true }, 600)
 
     }
 }
