@@ -13,11 +13,12 @@ import kotlin.collections.ArrayList
 
 class GameBoard : AppCompatActivity() {
     private lateinit var binding: ActivityBoardGameBinding
-    private lateinit var scoreBoard : ScoreBoard
+    private lateinit var gameResult : GameResults
     private val player1 = ArrayList<Int>()
     private val player2 = ArrayList<Int>()
     private var currentPlayer = 1
     private var playersTurn = true
+    private var winnerDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +29,8 @@ class GameBoard : AppCompatActivity() {
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Medieval OX"
+
+        gameResult = GameResults(this)
 
         binding.imageView1.setOnClickListener { onClick(it) }
         binding.imageView2.setOnClickListener { onClick(it) }
@@ -122,15 +125,25 @@ class GameBoard : AppCompatActivity() {
             2 -> "Player 2 wins!"
             else -> "Draw!"
         }
+        if (winner == 1) {
+            gameResult.gameResult(true)
+        } else if (winner == 2) {
+            gameResult.gameResult(false)
+        }
 
-        AlertDialog.Builder(this)
+        AlertDialog.Builder(this@GameBoard)
             .setTitle("End Game")
             .setMessage(message)
             .setPositiveButton("Restart") { _, _ -> resetGame() }
             .setCancelable(false)
             .show()
+
     }
-    fun endGame() {
+        override fun onDestroy() {
+            super.onDestroy()
+            winnerDialog?.dismiss()  // Assicura di chiudere il dialogo se l'activity viene distrutta
+        }
+    private fun endGame(player1win : Boolean) {
 
     }
 
