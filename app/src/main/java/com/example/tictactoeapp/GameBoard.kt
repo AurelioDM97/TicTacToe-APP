@@ -1,5 +1,6 @@
 package com.example.tictactoeapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -7,12 +8,11 @@ import android.os.Looper
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
-import com.example.tictactoeapp.databinding.ActivityMainBinding
+import com.example.tictactoeapp.databinding.BoardGameBinding
 import kotlin.collections.ArrayList
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class GameBoard : AppCompatActivity() {
+    private lateinit var binding: BoardGameBinding
     private val player1 = ArrayList<Int>()
     private val player2 = ArrayList<Int>()
     private var currentPlayer = 1
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = BoardGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         //toolbar per il nome dell'app
@@ -37,8 +37,14 @@ class MainActivity : AppCompatActivity() {
         binding.imageView7.setOnClickListener { onClick(it) }
         binding.imageView8.setOnClickListener { onClick(it) }
         binding.imageView9.setOnClickListener { onClick(it) }
-    }
 
+        val button = binding.scoreBoardBtn
+
+        button.setOnClickListener() {
+            val intent = Intent(this, ScoreBoard::class.java)
+            startActivity(intent)
+        }
+    }
     private fun onClick(view: View) {
         if (playersTurn) {
             val imageView = view as ImageView
@@ -78,8 +84,7 @@ class MainActivity : AppCompatActivity() {
         val winner = checkWinner() //condizioni di vittoria
         if (winner == 1 || winner == 2) {
             winnerPopup(winner)
-        }
-        else if (player1.size == 5 && player2.size == 4) {
+        } else if (player1.size == 5 && player2.size == 4) {
             winnerPopup(0)
         }
 
@@ -123,6 +128,7 @@ class MainActivity : AppCompatActivity() {
             .setCancelable(false)
             .show()
     }
+
     private fun resetGame() { //bottone dell'alert per resettare il gioco e ricominciare da capo
         player1.clear()
         player2.clear()
@@ -150,4 +156,5 @@ class MainActivity : AppCompatActivity() {
         binding.imageView9.isEnabled = true
 
     }
+
 }

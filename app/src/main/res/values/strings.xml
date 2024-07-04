@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Sword and Shield, Medieval Tris</string>
+    <string name="score_board">Score Board</string>
 </resources>
