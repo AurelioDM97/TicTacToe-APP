@@ -8,11 +8,12 @@ import android.os.Looper
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
-import com.example.tictactoeapp.databinding.BoardGameBinding
+import com.example.tictactoeapp.databinding.ActivityBoardGameBinding
 import kotlin.collections.ArrayList
 
 class GameBoard : AppCompatActivity() {
-    private lateinit var binding: BoardGameBinding
+    private lateinit var binding: ActivityBoardGameBinding
+    private lateinit var scoreBoard : ScoreBoard
     private val player1 = ArrayList<Int>()
     private val player2 = ArrayList<Int>()
     private var currentPlayer = 1
@@ -20,7 +21,7 @@ class GameBoard : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = BoardGameBinding.inflate(layoutInflater)
+        binding = ActivityBoardGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         //toolbar per il nome dell'app
@@ -89,6 +90,7 @@ class GameBoard : AppCompatActivity() {
         }
 
         Handler(Looper.getMainLooper()).postDelayed({ playersTurn = true }, 600)
+
     }
 
     private val allWinningCondition = arrayOf(
@@ -127,6 +129,9 @@ class GameBoard : AppCompatActivity() {
             .setPositiveButton("Restart") { _, _ -> resetGame() }
             .setCancelable(false)
             .show()
+    }
+    fun endGame() {
+
     }
 
     private fun resetGame() { //bottone dell'alert per resettare il gioco e ricominciare da capo
