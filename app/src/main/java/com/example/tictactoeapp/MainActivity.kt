@@ -6,11 +6,13 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import com.example.tictactoeapp.databinding.ActivityMainBinding
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     private val player1 = ArrayList<Int>()
     private val player2 = ArrayList<Int>()
     private var currentPlayer = 1
@@ -20,6 +22,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //toolbar per il nome dell'app
+        val toolbar = binding.toolbar
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = "Medieval OX"
 
         binding.imageView1.setOnClickListener { onClick(it) }
         binding.imageView2.setOnClickListener { onClick(it) }
@@ -32,8 +39,8 @@ class MainActivity : AppCompatActivity() {
         binding.imageView9.setOnClickListener { onClick(it) }
     }
 
-    private fun onClick(view : View) {
-        if(playersTurn) {
+    private fun onClick(view: View) {
+        if (playersTurn) {
             val imageView = view as ImageView
             val gridId = when (imageView.id) {
                 R.id.imageView1 -> 1
@@ -48,10 +55,12 @@ class MainActivity : AppCompatActivity() {
                 else -> 0
             }
             playersTurn = false
+            // metodo per dare scaglionare i turni dei due giocatori
             Handler(Looper.getMainLooper()).postDelayed({ playersTurn = true }, 600)
             setGame(imageView, gridId)
         }
     }
+
     private fun setGame(imageView: ImageView, gridId: Int) {
         if (currentPlayer == 1) {
             imageView.setImageResource(R.drawable.swords)
@@ -66,7 +75,79 @@ class MainActivity : AppCompatActivity() {
             currentPlayer = 1
 
         }
+        val winner = checkWinner() //condizioni di vittoria
+        if (winner == 1 || winner == 2) {
+            winnerPopup(winner)
+        }
+        else if (player1.size == 5 && player2.size == 4) {
+            winnerPopup(0)
+        }
+
         Handler(Looper.getMainLooper()).postDelayed({ playersTurn = true }, 600)
+    }
+
+    private val allWinningCondition = arrayOf(
+        intArrayOf(1, 2, 3),
+        intArrayOf(4, 5, 6),
+        intArrayOf(7, 8, 9),
+        intArrayOf(1, 5, 9),
+        intArrayOf(1, 4, 7),
+        intArrayOf(2, 5, 8),
+        intArrayOf(3, 5, 7),
+        intArrayOf(3, 6, 9),
+    )
+
+    private fun checkWinner(): Int {
+        for (combination in allWinningCondition) {
+            if (player1.containsAll(combination.toList())) {
+                return 1
+            }
+            if (player2.containsAll(combination.toList())) {
+                return 2
+            }
+        }
+        return 0
+    }
+
+    private fun winnerPopup(winner: Int) {
+        val message = when (winner) {
+            1 -> "Player 1 wins!"
+            2 -> "Player 2 wins!"
+            else -> "Draw!"
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("End Game")
+            .setMessage(message)
+            .setPositiveButton("Restart") { _, _ -> resetGame() }
+            .setCancelable(false)
+            .show()
+    }
+    private fun resetGame() { //bottone dell'alert per resettare il gioco e ricominciare da capo
+        player1.clear()
+        player2.clear()
+        currentPlayer = 1
+        playersTurn = true
+
+        binding.imageView1.setImageResource(0)
+        binding.imageView2.setImageResource(0)
+        binding.imageView3.setImageResource(0)
+        binding.imageView4.setImageResource(0)
+        binding.imageView5.setImageResource(0)
+        binding.imageView6.setImageResource(0)
+        binding.imageView7.setImageResource(0)
+        binding.imageView8.setImageResource(0)
+        binding.imageView9.setImageResource(0)
+
+        binding.imageView1.isEnabled = true
+        binding.imageView2.isEnabled = true
+        binding.imageView3.isEnabled = true
+        binding.imageView4.isEnabled = true
+        binding.imageView5.isEnabled = true
+        binding.imageView6.isEnabled = true
+        binding.imageView7.isEnabled = true
+        binding.imageView8.isEnabled = true
+        binding.imageView9.isEnabled = true
 
     }
 }
