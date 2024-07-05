@@ -2,7 +2,7 @@ package com.example.tictactoeapp
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
+
 
 class GameResults(context: Context) {
     private val scorePreferences: SharedPreferences =

@@ -7,18 +7,18 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.example.tictactoeapp.databinding.ActivityBoardGameBinding
-import kotlin.collections.ArrayList
+import com.example.tictactoeapp.model.GameConditionRepository
+import com.example.tictactoeapp.model.GameState
 
 class GameBoard : AppCompatActivity() {
     private lateinit var binding: ActivityBoardGameBinding
-    private lateinit var gameResult : GameResults
-    private val player1 = ArrayList<Int>()
-    private val player2 = ArrayList<Int>()
-    private var currentPlayer = 1
-    private var playersTurn = true
-    private var winnerDialog: AlertDialog? = null
+    private lateinit var gameResult: GameResults
+    private lateinit var gameCondition: GameConditionRepository
+    private lateinit var gameState: GameState
+    //private var winnerDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +30,11 @@ class GameBoard : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Medieval OX"
 
+
+
         gameResult = GameResults(this)
+        gameCondition = GameConditionRepository()
+        gameState = GameState()
 
         binding.imageView1.setOnClickListener { onClick(it) }
         binding.imageView2.setOnClickListener { onClick(it) }
@@ -49,8 +53,9 @@ class GameBoard : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
     private fun onClick(view: View) {
-        if (playersTurn) {
+        if (gameState.playersTurn) {
             val imageView = view as ImageView
             val gridId = when (imageView.id) {
                 R.id.imageView1 -> 1
@@ -64,61 +69,36 @@ class GameBoard : AppCompatActivity() {
                 R.id.imageView9 -> 9
                 else -> 0
             }
-            playersTurn = false
+            gameState.playersTurn = false
             // metodo per dare scaglionare i turni dei due giocatori
-            Handler(Looper.getMainLooper()).postDelayed({ playersTurn = true }, 600)
+            Handler(Looper.getMainLooper()).postDelayed({ gameState.playersTurn = true }, 600)
             setGame(imageView, gridId)
         }
     }
 
     private fun setGame(imageView: ImageView, gridId: Int) {
-        if (currentPlayer == 1) {
+        if (gameState.currentPlayer == 1) {
             imageView.setImageResource(R.drawable.swords)
-            player1.add(gridId)
+            gameState.player1.add(gridId)
             imageView.isEnabled = false
-            currentPlayer = 2
-
+            gameState.currentPlayer = 2
         } else {
             imageView.setImageResource(R.drawable.shield)
-            player2.add(gridId)
+            gameState.player2.add(gridId)
             imageView.isEnabled = false
-            currentPlayer = 1
-
+            gameState.currentPlayer = 1
         }
-        val winner = checkWinner() //condizioni di vittoria
+
+        val winner = gameCondition.checkWinner(gameState.player1, gameState.player2) //condizioni di vittoria
         if (winner == 1 || winner == 2) {
             winnerPopup(winner)
-        } else if (player1.size == 5 && player2.size == 4) {
+        } else if (gameState.player1.size == 5 && gameState.player2.size == 4) {
             winnerPopup(0)
         }
 
-        Handler(Looper.getMainLooper()).postDelayed({ playersTurn = true }, 600)
+        Handler(Looper.getMainLooper()).postDelayed({ gameState.playersTurn = true }, 600)
 
     }
-
-    private val allWinningCondition = arrayOf(
-        intArrayOf(1, 2, 3),
-        intArrayOf(4, 5, 6),
-        intArrayOf(7, 8, 9),
-        intArrayOf(1, 5, 9),
-        intArrayOf(1, 4, 7),
-        intArrayOf(2, 5, 8),
-        intArrayOf(3, 5, 7),
-        intArrayOf(3, 6, 9),
-    )
-
-    private fun checkWinner(): Int {
-        for (combination in allWinningCondition) {
-            if (player1.containsAll(combination.toList())) {
-                return 1
-            }
-            if (player2.containsAll(combination.toList())) {
-                return 2
-            }
-        }
-        return 0
-    }
-
     private fun winnerPopup(winner: Int) {
         val message = when (winner) {
             1 -> "Player 1 wins!"
@@ -139,19 +119,20 @@ class GameBoard : AppCompatActivity() {
             .show()
 
     }
-        override fun onDestroy() {
-            super.onDestroy()
-            winnerDialog?.dismiss()  // Assicura di chiudere il dialogo se l'activity viene distrutta
-        }
-    private fun endGame(player1win : Boolean) {
+    //gestione errore popup
+    /*override fun onDestroy() {
+        super.onDestroy()
+        winnerDialog?.dismiss()  // Assicura di chiudere il dialogo se l'activity viene distrutta
+    }*/
 
-    }
+    /*private fun endGame(player1win: Boolean) {
+    }*/
 
     private fun resetGame() { //bottone dell'alert per resettare il gioco e ricominciare da capo
-        player1.clear()
-        player2.clear()
-        currentPlayer = 1
-        playersTurn = true
+        gameState.player1.clear()
+        gameState.player2.clear()
+        gameState.currentPlayer = 1
+        gameState.playersTurn = true
 
         binding.imageView1.setImageResource(0)
         binding.imageView2.setImageResource(0)
@@ -172,6 +153,10 @@ class GameBoard : AppCompatActivity() {
         binding.imageView7.isEnabled = true
         binding.imageView8.isEnabled = true
         binding.imageView9.isEnabled = true
+
+    }
+    private fun setTurn() {
+
 
     }
 
