@@ -1,10 +1,14 @@
 package com.example.tictactoeapp
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ImageSpan
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -18,6 +22,7 @@ class GameBoard : AppCompatActivity() {
     private lateinit var gameResult: GameResults
     private lateinit var gameCondition: GameConditionRepository
     private lateinit var gameState: GameState
+    private lateinit var playersTurnText : TextView
     //private var winnerDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +40,9 @@ class GameBoard : AppCompatActivity() {
         gameResult = GameResults(this)
         gameCondition = GameConditionRepository()
         gameState = GameState()
+        playersTurnText = binding.playersTurnText
+
+        setTurn()
 
         binding.imageView1.setOnClickListener { onClick(it) }
         binding.imageView2.setOnClickListener { onClick(it) }
@@ -95,7 +103,7 @@ class GameBoard : AppCompatActivity() {
         } else if (gameState.player1.size == 5 && gameState.player2.size == 4) {
             winnerPopup(0)
         }
-
+        setTurn()
         Handler(Looper.getMainLooper()).postDelayed({ gameState.playersTurn = true }, 600)
 
     }
@@ -155,9 +163,33 @@ class GameBoard : AppCompatActivity() {
         binding.imageView9.isEnabled = true
 
     }
-    private fun setTurn() {
 
+    //metodo trovato spannablestring e imagespan per mostrare le immagini sulla textview aggiornata
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun setTurn() {
+        val currentPlayerText = if (gameState.currentPlayer == 1) "X"
+        else "O"
+        val updateTurnText = getString(R.string.turn_player, currentPlayerText)
+
+        val spanString = SpannableString(updateTurnText)
+
+        val icons = if (gameState.currentPlayer == 1) {
+            getDrawable(R.mipmap.ic_launcher_foreground)
+        } else {
+            getDrawable(R.mipmap.shield_foreground)
+        }
+        val newWidth = 150
+        val newHeight = 150
+
+        icons?.setBounds(0, 0, newWidth, newHeight)
+        val imageSpan = ImageSpan(icons!!, ImageSpan.ALIGN_BOTTOM)
+
+        val start = updateTurnText.indexOf(currentPlayerText)
+        val end = start + 1
+
+        spanString.setSpan(imageSpan, start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+
+        playersTurnText.text = spanString
 
     }
-
 }

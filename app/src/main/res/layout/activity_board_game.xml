@@ -19,12 +19,13 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
 
     <TextView
-        android:id="@+id/playersTurn"
+        android:id="@+id/playersTurnText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="40dp"
-        android:text="X's turn"
+        android:text="Turn: Player X"
+        android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="30sp" />
 
