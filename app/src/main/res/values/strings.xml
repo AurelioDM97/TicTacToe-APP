@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Sword and Shield, Medieval Tris</string>
     <string name="score_board">Score Board</string>
-    <string name="turn_player">Turn: %s</string> />
+    <string name="turn_player">Turn: %s</string>
+    <string name="back" />
+    <string name="Back">Back</string>
+    />
 </resources>

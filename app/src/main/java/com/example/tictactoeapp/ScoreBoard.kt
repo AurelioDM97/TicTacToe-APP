@@ -15,6 +15,11 @@ class ScoreBoard: AppCompatActivity() {
         setContentView(binding.root)
 
         gameResult = GameResults(this)
+        val backbtn = binding.backButton
+
+        backbtn.setOnClickListener() { //ritorna all'activity del main game con un bottone di ritorno
+            finish()
+        }
 
         val scoreList = binding.scoreListView
 
