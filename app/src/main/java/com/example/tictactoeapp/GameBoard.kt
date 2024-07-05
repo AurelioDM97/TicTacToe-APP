@@ -128,10 +128,11 @@ class GameBoard : AppCompatActivity() {
 
     }
     //gestione errore popup
-    /*override fun onDestroy() {
+    override fun onDestroy() {
         super.onDestroy()
-        winnerDialog?.dismiss()  // Assicura di chiudere il dialogo se l'activity viene distrutta
-    }*/
+        //gameResult.resetGameScore()
+        //winnerDialog?.dismiss()  // assicura di chiudere il dialogo se l'activity viene distrutta
+    }
 
     /*private fun endGame(player1win: Boolean) {
     }*/
@@ -161,7 +162,6 @@ class GameBoard : AppCompatActivity() {
         binding.imageView7.isEnabled = true
         binding.imageView8.isEnabled = true
         binding.imageView9.isEnabled = true
-
     }
 
     //metodo trovato spannablestring e imagespan per mostrare le immagini sulla textview aggiornata
@@ -190,6 +190,5 @@ class GameBoard : AppCompatActivity() {
         spanString.setSpan(imageSpan, start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
 
         playersTurnText.text = spanString
-
     }
 }
