@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/yellow"
+    android:background="@color/background_color"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".GameBoard">
@@ -13,7 +13,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/brown"
+        android:background="@color/dark_brown"
         android:elevation="3dp"
         android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
@@ -47,7 +47,7 @@
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="4dp"
-            android:background="@color/white"
+            android:background="@color/beige"
             android:padding="10dp"
             android:scaleType="centerCrop" />
 
@@ -61,8 +61,7 @@
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="4dp"
-            android:background="@color/white"
-            android:padding="10dp"
+            android:background="@color/beige"            android:padding="10dp"
             android:scaleType="centerCrop" />
 
         <ImageView
@@ -74,8 +73,7 @@
             android:layout_column="2"
             android:layout_columnWeight="1"
             android:layout_margin="4dp"
-            android:background="@color/white"
-            android:padding="10dp"
+            android:background="@color/beige"            android:padding="10dp"
             android:scaleType="centerCrop" />
 
         <ImageView
@@ -87,8 +85,7 @@
             android:layout_column="0"
             android:layout_columnWeight="1"
             android:layout_margin="4dp"
-            android:background="@color/white"
-            android:padding="10dp"
+            android:background="@color/beige"            android:padding="10dp"
             android:scaleType="centerCrop" />
 
         <ImageView
@@ -100,8 +97,7 @@
             android:layout_column="1"
             android:layout_columnWeight="1"
             android:layout_margin="4dp"
-            android:background="@color/white"
-            android:padding="10dp"
+            android:background="@color/beige"            android:padding="10dp"
             android:scaleType="centerCrop" />
 
         <ImageView
@@ -113,8 +109,7 @@
             android:layout_column="2"
             android:layout_columnWeight="1"
             android:layout_margin="4dp"
-            android:background="@color/white"
-            android:padding="10dp"
+            android:background="@color/beige"            android:padding="10dp"
             android:scaleType="centerCrop" />
 
         <ImageView
@@ -126,8 +121,7 @@
             android:layout_column="0"
             android:layout_columnWeight="1"
             android:layout_margin="4dp"
-            android:background="@color/white"
-            android:padding="10dp"
+            android:background="@color/beige"            android:padding="10dp"
             android:scaleType="centerCrop" />
 
         <ImageView
@@ -139,8 +133,7 @@
             android:layout_column="1"
             android:layout_columnWeight="1"
             android:layout_margin="4dp"
-            android:background="@color/white"
-            android:padding="10dp"
+            android:background="@color/beige"            android:padding="10dp"
             android:scaleType="centerCrop" />
 
         <ImageView
@@ -152,8 +145,7 @@
             android:layout_column="2"
             android:layout_columnWeight="1"
             android:layout_margin="4dp"
-            android:background="@color/white"
-            android:padding="10dp"
+            android:background="@color/beige"            android:padding="10dp"
             android:scaleType="centerCrop" />
 
     </GridLayout>
@@ -163,7 +155,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:backgroundTint="@color/brown"
+        android:backgroundTint="@color/dark_brown"
         android:text="@string/score_board"
         android:textAppearance="@style/scoreBoardBtn"
         android:textColor="@color/white"

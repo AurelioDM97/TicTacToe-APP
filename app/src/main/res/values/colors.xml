@@ -4,4 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="yellow">#ffea99</color>
     <color name="brown">#f4a460</color>
+    <color name="background_color">#2C2C2C</color> <!-- Sfondo scuro -->
+    <color name="beige">#D2B48C</color> <!-- Griglia beige -->
+    <color name="grey">#C0C0C0</color> <!-- Spada color argento -->
+    <color name="dark_brown">#8B4513</color>
 </resources>
